@@ -1,8 +1,8 @@
-import java.util.Random;
+
 
 public class NameGen {
 
-    private static String[] names = {
+    private static final String[] names = {
             "Altairis", "Betelgara", "Cygniar", "Draxilon", "Eridanus", "Fornaxor",
             "Geminor", "Heliox", "Indrion", "Jovaris", "Kalypsi", "Lycoran",
             "Miradon", "Nyralia", "Orionyx", "Paximus", "Quasarion", "Rigelion",

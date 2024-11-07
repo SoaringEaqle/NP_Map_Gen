@@ -20,11 +20,6 @@ public class NPstar {
 
 
 
-    public static void setRand(boolean t)
-    {
-        randReward = t;
-    }
-
     public static void setStartInfrastructure(int econ, int indus, int sci)
     {
         startEcon = econ;
@@ -45,13 +40,12 @@ public class NPstar {
             int sci = NPstar.startSci;
             int gate = 1;
             int ship = NPstar.startShip;
-            int uid = starNum;
 
             String name = NameGen.nextName();
 
 
             JSONObject star = new JSONObject();
-            star.put("uid",uid);
+            star.put("uid", starNum);
             star.put("name",name);
             star.put("x",x);
             star.put("y",y);
@@ -78,10 +72,9 @@ public class NPstar {
 
 
             String name = NameGen.nextName();
-            int uid = starNum;
 
             JSONObject star = new JSONObject();
-            star.put("uid",uid);
+            star.put("uid", starNum);
             star.put("name",name);
             star.put("x",x);
             star.put("y",y);
@@ -137,10 +130,8 @@ public class NPstar {
 
             String name = NameGen.nextName();
 
-            int uid = starNum;
-
             JSONObject star = new JSONObject();
-            star.put("uid",uid);
+            star.put("uid", starNum);
             star.put("name",name);
             star.put("x",x);
             star.put("y",y);
@@ -153,9 +144,7 @@ public class NPstar {
 
             return star;
         }
-        public static void NPcust(int starNum)
-        {
-            int uid = starNum;
+        public static void NPcust(int starNum) throws JSONException {
             System.out.print("Name (Type \"Random\" to randomly generate the name):");
             String name = con.inp.nextLine();
             if(name.equals("Random"))
@@ -187,35 +176,31 @@ public class NPstar {
 
             System.out.print("puid (0 will return an unclaimed star): ");
             int puid = con.inp.nextInt();
-            HashMap<String,String> star = new HashMap<String,String>();
-            star.put("uid",Integer.toString(uid));
+
+            JSONObject star = new JSONObject();
+
+            star.put("uid",starNum);
             star.put("name",name);
-            star.put("x",Double.toString(x));
-            star.put("y",Double.toString(y));
-            star.put("resource",Integer.toString(resource));
-            star.put("economy",Integer.toString(econ));
-            star.put("industry",Integer.toString(indus));
-            star.put("science",Integer.toString(sci));
-            star.put("gate",Integer.toString(gate));
-            star.put("ship",Integer.toString(ship));
-        }
-
-
-        public static String makeString(HashMap<String,String> star)
-        {
-            if (star.containsKey("puid"))
-            {
-                return "\t{\"uid\": " + star.get("uid") + ", \"name\": \"" + star.get("name") +"\", \"x\": "+ star.get("x")+", \"y\": "+star.get("y")+", \"r\": "+star.get("resource")+", \"g\": "+star.get("gate")+", \"e\": "+star.get("economy")+", \"i\": "+star.get("industry")+", \"s\": "+star.get("science")+", \"st\": "+star.get("ship")+", \"puid\": "+star.get("puid")+"},";
+            star.put("x",x);
+            star.put("y",y);
+            star.put("resource",resource);
+            star.put("economy",econ);
+            star.put("industry",indus);
+            star.put("science",sci);
+            star.put("gate",gate);
+            star.put("ship",ship);
+            if (puid > 0){
+                star.put("puid",puid);
             }
-            return "\t{\"uid\": " + star.get("uid") + ", \"name\": \"" + star.get("name") +"\", \"x\": "+ star.get("x")+", \"y\": "+star.get("y")+", \"r\": "+star.get("resource")+", \"g\": "+star.get("gate")+", \"e\": "+star.get("economy")+", \"i\": "+star.get("industry")+", \"s\": "+star.get("science")+", \"st\": "+star.get("ship")+"},";
         }
+
+
+
         public static double starX(JSONObject star) throws JSONException {
-            double x = (double) star.get("x");
-            return x;
+            return (double) star.get("x");
         }
         public static double starY(JSONObject star) throws JSONException {
-            double y = (double)star.get("y");
-            return y;
+            return (double)star.get("y");
         }
 
 
@@ -233,30 +218,10 @@ public class NPstar {
         private double stary;
         private String name;
 
-        HashMap<String,String> star = new HashMap<String,String>();
+        HashMap<String, String> star = new HashMap<>();
         JSONObject starJ = new JSONObject();
-        StarObj otherStar;
 
-        public void setOtherStar(StarObj starObj){
-            otherStar = starObj;
-        }
-        public void resetStarObj(HashMap<String,String> star)
-        {
-            uid = Integer.parseInt(star.get("uid"));
-            name = star.get("name");
-            starx = Double.parseDouble(star.get("x"));
-            stary = Double.parseDouble(star.get("y"));
-            resource = Integer.parseInt(star.get("resource"));
-            econ = Integer.parseInt(star.get("economy"));
-            indus = Integer.parseInt(star.get("industry"));
-            sci = Integer.parseInt(star.get("science"));
-            ships = Integer.parseInt(star.get("ship"));
-            gate = Integer.parseInt(star.get("gate"));
-            puid = Integer.parseInt(star.getOrDefault("puid","0"));
 
-            this.star = star;
-
-        }
         public void resetStarObj(JSONObject star) throws JSONException {
             uid = star.getInt("uid");
             name = star.getString("name");
@@ -274,13 +239,14 @@ public class NPstar {
 
 
         }
-        public StarObj(int uid)
-        {
-            star = con.starList.get(uid-1);
-            this.resetStarObj(star);
+
+        public StarObj(int uid) throws JSONException {
+            starJ = (JSONObject) con.stars.get(uid - 1);
+            this.resetStarObj(starJ);
 
         }
-        public StarObj(HashMap<String,String> star) {
+
+        public StarObj(HashMap<String, String> star) {
             uid = Integer.parseInt(star.get("uid"));
             name = star.get("name");
             starx = Double.parseDouble(star.get("x"));
@@ -295,6 +261,7 @@ public class NPstar {
 
             this.star = star;
         }
+
         public StarObj(JSONObject star) throws JSONException {
             uid = star.getInt("uid");
             name = star.getString("name");
@@ -312,7 +279,7 @@ public class NPstar {
         }
 
 
-        public void newName(){
+        public void newName() {
             name = NameGen.newName();
         }
 
@@ -321,72 +288,43 @@ public class NPstar {
         }
 
         public JSONObject repackage() throws JSONException {
-            starJ.put("uid",uid);
-            starJ.put("name",name);
-            starJ.put("x",starx);
-            starJ.put("y",stary);
-            starJ.put("resource",Integer.toString(resource));
-            starJ.put("economy",Integer.toString(econ));
-            starJ.put("industry",Integer.toString(indus));
-            starJ.put("science",Integer.toString(sci));
-            starJ.put("gate",Integer.toString(gate));
-            starJ.put("ship",Integer.toString(ships));
-            if(puid>0)
-            {
-                starJ.put("puid",puid);
+            starJ.put("uid", uid);
+            starJ.put("name", name);
+            starJ.put("x", starx);
+            starJ.put("y", stary);
+            starJ.put("resource", Integer.toString(resource));
+            starJ.put("economy", Integer.toString(econ));
+            starJ.put("industry", Integer.toString(indus));
+            starJ.put("science", Integer.toString(sci));
+            starJ.put("gate", Integer.toString(gate));
+            starJ.put("ship", Integer.toString(ships));
+            if (puid > 0) {
+                starJ.put("puid", puid);
             }
 
-
+            NPstar.updateArray(starJ);
             return starJ;
         }
 
 
-
-        public boolean equals(StarObj starin){
-            if (uid == starin.uid && name.equals(starin.name) &&
-            econ == starin.econ && indus == starin.indus && sci == starin.sci &&
-            resource == starin.resource &&
-            ships == starin.ships && gate == starin.gate &&
-            puid == starin.puid &&
-            starx == starin.starx && stary == starin.stary
-            ){
-                return true;
-            }
-            return false;
+        public boolean equals(StarObj starin) {
+            return uid == starin.uid && name.equals(starin.name) &&
+                    econ == starin.econ && indus == starin.indus && sci == starin.sci &&
+                    resource == starin.resource &&
+                    ships == starin.ships && gate == starin.gate &&
+                    puid == starin.puid &&
+                    starx == starin.starx && stary == starin.stary;
         }
 
-        public boolean nameEqual(StarObj starin){
-            if (uid != starin.uid && Objects.equals(name, starin.name))
-            {
-                return true;
-            }
-            return false;
+        public boolean nameEqual(StarObj starin) {
+            return uid != starin.uid && Objects.equals(name, starin.name);
         }
 
-        public boolean cordsEqual(StarObj starin){
-            if (uid != starin.uid && starx == starin.starx && stary == starin.stary)
-            {
-                return true;
-            }
-            return false;
+        public boolean cordsEqual(StarObj starin) {
+            return uid != starin.uid && starx == starin.starx && stary == starin.stary;
         }
-        public boolean nameEqual(){
-            if ( name.equals(otherStar.name))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public boolean cordsEqual(){
-            if (uid != otherStar.uid && starx == otherStar.starx && stary == otherStar.stary)
-            {
-                return true;
-            }
-            return false;
-        }
-
     }
+
 
     public static class WHMaker {
         public static JSONArray hole(int uid1, int uid2) {
@@ -396,15 +334,5 @@ public class NPstar {
             return hole;
         }
 
-
-        public static String makeString(int uid1, int uid2) {
-            String word = "\t[" + uid1 + ", " + uid2 + "],";
-            return word;
-        }
-
-        public static String makeString(int[] hole) {
-            String word = "\t[" + hole[0] + ", " + hole[1] + "],";
-            return word;
-        }
     }
 }

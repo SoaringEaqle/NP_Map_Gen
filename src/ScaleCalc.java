@@ -1,6 +1,6 @@
 public class ScaleCalc {
 
-    private double scale = 0.0625;//units per lightyear
+    private final double scale = 0.0625;//units per lightyear
     private double units;
     private double ltyr;
 
@@ -11,24 +11,25 @@ public class ScaleCalc {
         units = lightyears * scale;
         return units;
     }
+    public double ltyrPUnt()
+    {
+        units = ltyr * scale;
+        return units;
+    }
 
     public double maxRange(int level)
     {
-        double maxRange1 = level + 4;
-        return maxRange1;
+        return level + 4;
     }
 
     public double maxRangeU(int level)
     {
-        Double maxRange1 = this.maxRange(level);
-        double maxRangeU1 = this.ltyrPUnt(maxRange1);
-        return maxRangeU1;
+        double maxRange1 = this.maxRange(level);
+        return this.ltyrPUnt(maxRange1);
     }
 
-    public double unitPLy()
-    {
-        ltyr = this.units / scale;
-        return ltyr;
+    public double unitPLy() {
+        return this.units / scale;
     }
 
     public void setUnits(double units)

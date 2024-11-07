@@ -1,4 +1,3 @@
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -8,7 +7,7 @@ import java.awt.geom.Point2D;
 
 
 public class NPmapGen3T {
-    public static void main(String[] args) throws JSONException {
+    public static void main(String[] args) throws JSONException{
 
         // number of players
         System.out.print("Number of players:");
@@ -159,7 +158,7 @@ public class NPmapGen3T {
             uid2 = con.rand.nextInt(1,numPl*starPl);
             sub = con.stars.getJSONObject(uid2-1);
             point2.setLocation(NPstar.starHash.starX(sub),NPstar.starHash.starY(sub));
-            int repeats = 0;
+
             if (point1.distance(point2) > 1.0)
             {
                 con.worms.put(NPstar.WHMaker.hole(uid1,uid2));
@@ -175,7 +174,7 @@ public class NPmapGen3T {
 
                 error = 0;
             }
-            System.out.println(repeats + " repetitions of wormholes");
+
 
 
         }
@@ -183,7 +182,7 @@ public class NPmapGen3T {
         {
             for (int plNum = 1; plNum <= numPl; plNum++)
             {
-                con.wormList.add(NPstar.WHMaker.makeString(plNum, starnum));
+                con.worms.put(NPstar.WHMaker.hole(starnum,plNum));
             }
         }
 
@@ -199,8 +198,8 @@ public class NPmapGen3T {
 
                 star1.resetStarObj(con.stars.getJSONObject(i));
                 int num = 0;
-                while(num < con.starList.size()){
-                    starComp.resetStarObj(con.starList.get(num));
+                while(num < con.stars.length()){
+                    starComp.resetStarObj(con.stars.getJSONObject(num));
                     num++;
                     if(!star1.equals(starComp) && star1.nameEqual(starComp)){
                         System.out.println("Name of star " + star1.get("uid") +" was the same name as " + star1.get("uid") + " of " +  star1.get("name"));
@@ -228,38 +227,7 @@ public class NPmapGen3T {
 
 
         }
-        /*System.out.println("{\"stars\":[");
-        for(String i : home)
-        {
-            System.out.println(i);
-        }
-        for (String i : claimed)
-        {
-            System.out.println(i);
-        }
-        for (String i : notclaimed)
-        {
-            System.out.println(i);
-        }
-        for(HashMap<String,String> i : con.starList)
-        {
-            System.out.println(NPstar.starHash.makeString(i));
-        }
 
-        System.out.print("]");*/
-
-
-
-
-        /*System.out.println(", \n\"wormholes\":[");
-        for(String i : con.wormList)
-        {
-            System.out.println(i);
-        }
-        System.out.print("]");
-
-
-        System.out.println("}");*/
         con.main.put("wormholes",con.worms);
         con.main.put("stars",con.stars);
         
@@ -268,21 +236,7 @@ public class NPmapGen3T {
 
 
         //todo add renderer
-        /*
-        Drawhelp g = new Drawhelp();
 
-        Graphics g = new Gr
-        Rectangle2D.Double rect = new Rectangle2D.Double();
-        for(String i ; homexy)
-        {
-            rect.setRect(homexy[arrayAdd][1],
-                    homexy[arrayAdd][2],
-                    homexy[arrayAdd][1],
-                    homexy[arrayAdd][2]);
-            rect.draw
-
-        }
-        */
     }
 
 
