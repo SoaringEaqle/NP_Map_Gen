@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 
-/*public class NPmapGen2{
+public class NPmapGen2{
     public static void main(String[] args) {
 
         System.out.println("Test Mode");
@@ -24,7 +24,7 @@ import java.util.Scanner;
         int starPl = con.inp.nextInt();
         //staring stars per player
         System.out.print("Number of starting stars per player:");
-        int startStarPl = con.inp.nextInt() ;
+        int startStarPl = con.inp.nextInt();
 
         System.out.print("Random exploration rewards(true/false): ");
         NPstar.randReward = con.inp.nextBoolean();
@@ -37,9 +37,8 @@ import java.util.Scanner;
 
         System.out.print("Special Game modes(true/false): ");
         boolean adv = con.inp.nextBoolean();
-        String gModes ="";
-        if(adv)
-        {
+        String gModes = "";
+        if (adv) {
             System.out.println("Each of the following map settings is assigned a number. " +
                     "When prompted, input the numbers of all values as one integer.");
             System.out.println("1) Central Wormhole: All home stars are connected to one central star that players fight over.");
@@ -59,40 +58,35 @@ import java.util.Scanner;
         int res;
 
 
-
-
-
-
-    //Capital Gen
+        //Capital Gen
         //r,angle points
         double homerad = (con.rand.nextDouble() * 5);
-        double homeang = (con.rand.nextDouble() * ((Math.PI *2)/numPl));
+        double homeang = (con.rand.nextDouble() * ((Math.PI * 2) / numPl));
         double homex;
         double homey;
 
 
-        for(int plNum = 1; plNum <= numPl; plNum++)
-        {
+        for (int plNum = 1; plNum <= numPl; plNum++) {
 
-            homex = CircleHelp.round4(CircleHelp.PtoCX(homerad,homeang,0));
-            homey = CircleHelp.round4(CircleHelp.PtoCY(homerad,homeang,0));
+            homex = CircleHelp.round4(CircleHelp.PtoCX(homerad, homeang, 0));
+            homey = CircleHelp.round4(CircleHelp.PtoCY(homerad, homeang, 0));
 
             con.starList.add(NPstar.starHash.NPcap(starnum, homex, homey, plNum));
-            homeang += (2*Math.PI) /numPl;
+            homeang += (2 * Math.PI) / numPl;
             starnum++;
 
         }
 
-    //Claimed Stars
+        //Claimed Stars
 
-        for(int i = 0; i < startStarPl-1; i++) {
+        for (int i = 0; i < startStarPl - 1; i++) {
             radius = Math.abs(con.rand.nextDouble(0.01, 0.25));
             theta = con.rand.nextDouble() * 2.0 * Math.PI;
 
             res = 35 + (int) (con.rand.nextGaussian() * 10.0);
             for (int plNum = 1; plNum <= numPl; plNum++) {
-                starx = CircleHelp.round4(CircleHelp.PtoCX(radius, theta, NPstar.starHash.starX(con.starList.get(plNum-1))));
-                stary = CircleHelp.round4(CircleHelp.PtoCY(radius, theta, NPstar.starHash.starY(con.starList.get(plNum-1))));
+                starx = CircleHelp.round4(CircleHelp.PtoCX(radius, theta, NPstar.starHash.starX(con.starList.get(plNum - 1))));
+                stary = CircleHelp.round4(CircleHelp.PtoCY(radius, theta, NPstar.starHash.starY(con.starList.get(plNum - 1))));
 
                 con.starList.add(NPstar.starHash.NPclaimed(starnum, starx, stary, res, plNum));
 
@@ -109,22 +103,21 @@ import java.util.Scanner;
 
         boolean even = con.inp.nextBoolean();
         int notClaimednum = starPl - startStarPl;
-        if (even){
-            for(int i = 0; i < notClaimednum; i++) {
-                radius = Math.abs(con.rand.nextDouble()*numPl*2);
-                theta = con.rand.nextDouble() * 2.0 * Math.PI/numPl;
+        if (even) {
+            for (int i = 0; i < notClaimednum; i++) {
+                radius = Math.abs(con.rand.nextDouble() * numPl * 2);
+                theta = con.rand.nextDouble() * 2.0 * Math.PI / numPl;
                 res = 35 + (int) (con.rand.nextGaussian() * 10.0);
-                for(int plNum = 1; plNum <= numPl;plNum++) {
+                for (int plNum = 1; plNum <= numPl; plNum++) {
                     starx = CircleHelp.round4(CircleHelp.PtoCX(radius, theta, 0));
                     stary = CircleHelp.round4(CircleHelp.PtoCY(radius, theta, 0));
                     con.starList.add(NPstar.starHash.NPNotclaimed(starnum, starx, stary, res));
-                    theta += (2.0*Math.PI)/numPl;
+                    theta += (2.0 * Math.PI) / numPl;
                     starnum++;
                 }
             }
 
-        }
-        else {
+        } else {
 
 
             for (int i = 0; i < notClaimednum * numPl; i++) {
@@ -141,8 +134,7 @@ import java.util.Scanner;
             }
 
         }
-        if(gModes.contains("1"))
-        {
+        if (gModes.contains("1")) {
             starx = 0;
             stary = 0;
             res = 60;
@@ -155,27 +147,21 @@ import java.util.Scanner;
         Point2D.Double point1 = new Point2D.Double();
         int uid1;
         int uid2;
-        HashMap<String,String> sub;
+        HashMap<String, String> sub;
 
         Point2D.Double point2 = new Point2D.Double();
-        while(con.wormList.size() < worm)
-        {
-            uid1 = con.rand.nextInt(1,numPl*starPl);
-            sub = con.starList.get(uid1-1);
-            point1.setLocation(NPstar.starHash.starX(sub),NPstar.starHash.starY(sub));
-            uid2 = con.rand.nextInt(1,numPl*starPl);
-            sub = con.starList.get(uid2-1);
-            point2.setLocation(NPstar.starHash.starX(sub),NPstar.starHash.starY(sub));
-            if (point1.distance(point2) > 1.0)
-            {
+        while (con.wormList.size() < worm) {
+            uid1 = con.rand.nextInt(1, numPl * starPl);
+            sub = con.starList.get(uid1 - 1);
+            point1.setLocation(NPstar.starHash.starX(sub), NPstar.starHash.starY(sub));
+            uid2 = con.rand.nextInt(1, numPl * starPl);
+            sub = con.starList.get(uid2 - 1);
+            point2.setLocation(NPstar.starHash.starX(sub), NPstar.starHash.starY(sub));
+            if (point1.distance(point2) > 1.0) {
                 con.wormList.add(NPstar.WHMaker.makeString(uid1, uid2));
-            }
-            else if(error < 8)
-            {
+            } else if (error < 8) {
                 error++;
-            }
-            else if(error == 8)
-            {
+            } else if (error == 8) {
                 con.wormList.add("8 attempts: Error");
 
                 error = 0;
@@ -183,31 +169,29 @@ import java.util.Scanner;
 
 
         }
-        if(gModes.contains("1"))
-        {
-            for (int plNum = 1; plNum <= numPl; plNum++)
-            {
+        if (gModes.contains("1")) {
+            for (int plNum = 1; plNum <= numPl; plNum++) {
                 con.wormList.add(NPstar.WHMaker.makeString(plNum, starnum));
             }
         }
 
         System.out.println("test for repeats (true/false): ");
         boolean check = con.inp.nextBoolean();
-        if(check){
-            HashMap<String,String> starHash = con.starList.get(0);
+        if (check) {
+            HashMap<String, String> starHash = con.starList.get(0);
             NPstar.StarObj star1 = new NPstar.StarObj(starHash);
             NPstar.StarObj starComp = new NPstar.StarObj(starHash);
             int namerep = 0;
             int cordRep = 0;
-            HashMap <String,String> j;
-            for(HashMap<String,String> i: con.starList){
+            HashMap<String, String> j;
+            for (HashMap<String, String> i : con.starList) {
                 star1.resetStarObj(i);
                 int num = 0;
-                while(num < con.starList.size()){
+                while (num < con.starList.size()) {
                     j = con.starList.get(num);
                     starComp.resetStarObj(j);
-                    if(!star1.equals(starComp) && star1.nameEqual(starComp)){
-                        System.out.println("Name of star " + i.get("uid") +" was the same name as " + j.get("uid") + " of " +  i.get("name"));
+                    if (!star1.equals(starComp) && star1.nameEqual(starComp)) {
+                        System.out.println("Name of star " + i.get("uid") + " was the same name as " + j.get("uid") + " of " + i.get("name"));
                         namerep++;
                         star1.newName();
                         star1.repackage();
@@ -215,8 +199,8 @@ import java.util.Scanner;
                         num = 0;
                         continue;
                     }
-                    if(!star1.equals(starComp) && star1.cordsEqual(starComp)){
-                        System.out.println("Cords of star " + i.get("uid") +" is the same cords as star" + j.get("uid") + " at " +  i.get("x")+"," + i.get("y"));
+                    if (!star1.equals(starComp) && star1.cordsEqual(starComp)) {
+                        System.out.println("Cords of star " + i.get("uid") + " is the same cords as star" + j.get("uid") + " at " + i.get("x") + "," + i.get("y"));
                         cordRep++;
 
                         star1.repackage();
@@ -227,12 +211,12 @@ import java.util.Scanner;
                 }
             }
             namerep /= 2;
-            cordRep /=2;
+            cordRep /= 2;
             System.out.println("Names were repeated " + namerep + " times");
             System.out.println("Cords were repeated " + cordRep + " times");
         }
         System.out.println("{\"stars\":[");
-       /* for(String i : home)
+        /*for(String i : home)
         {
             System.out.println(i);
         }
@@ -244,19 +228,15 @@ import java.util.Scanner;
         {
             System.out.println(i);
         }*/
-        /*for(HashMap<String,String> i : con.starList)
-        {
+        for (HashMap<String, String> i : con.starList) {
             System.out.println(NPstar.starHash.makeString(i));
         }
 
         System.out.print("]");
 
 
-
-
         System.out.println(", \n\"wormholes\":[");
-        for(String i : con.wormList)
-        {
+        for (String i : con.wormList) {
             System.out.println(i);
         }
         System.out.print("]");
@@ -280,11 +260,10 @@ import java.util.Scanner;
 
         }
         */
-   /* }
+    }
     public class AdvSet{
 
     }
 
 
 }
-*/

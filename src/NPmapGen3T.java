@@ -3,10 +3,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.Scanner;
+
 
 
 
@@ -265,7 +262,7 @@ public class NPmapGen3T {
         System.out.println("}");*/
         con.main.put("wormholes",con.worms);
         con.main.put("stars",con.stars);
-
+        
 
         System.out.println(con.main);
 
@@ -287,9 +284,7 @@ public class NPmapGen3T {
         }
         */
     }
-    public class AdvSet{
 
-    }
 
 
 }
